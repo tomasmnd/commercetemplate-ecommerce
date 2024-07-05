@@ -1,16 +1,15 @@
                      
 <h1 style="font-weight: bold;">FakeLibre</h1>
 
-<p>
-- <a href="#tech">Technologies</a>
-- <a href="#started">Getting Started</a>
-- <a href="#routes">API Endpoints</a>
-- <a href="#colab">Collaborators</a>
-- <a href="#contribute">Contribute</a> 
-</p>
-
-
 <p> FakeLibre is a backend ecommerce project for Coderhouse's backend programming course.</p>
+
+<ul>
+  <li><a href="#tech">Technologies</a></li>
+  <li><a href="#started">Getting Started</a></li>
+  <li><a href="#routes">API Endpoints</a></li>
+  <li><a href="#colab">Collaborators</a></li>
+  <li><a href="#contribute">Contribute</a></li>
+</ul>
 
 <a href="https://fakelibre-coderhouse-deploy-production.up.railway.app/">Deploy on Railway</a>
  
@@ -21,7 +20,7 @@ Passport, Multer, Nodemailer, Socket.io
 pdfkit, Winston, Faker, Chai & Supertest, Nodemon, Mocha, and more.
 Swagger for documentation
  
-<h2 id="started">🚀 Getting started</h2>
+<h2 id="started">Getting started</h2>
 
 Clone this project.
 
@@ -47,7 +46,7 @@ NODEMAILER_HOST=yourHost
  
 <h3>Nodemailer host</h3>
 
-You can use Gmail <a href="https://support.google.com/accounts/answer/185839?hl=en&co=GENIE.Platform%3DAndroid" 2-Step Verification </a> to send emails. After activating it, generate an application password and paste it in the `APPLICATION_KEY` variable.
+You can use Gmail <a href="https://support.google.com/accounts/answer/185839?hl=en&co=GENIE.Platform%3DAndroid"> 2-Step Verification </a> to send emails. After activating it, generate an application password and paste it in the `APPLICATION_KEY` variable.
 
 
 <h3>Install dependencies</h3>
