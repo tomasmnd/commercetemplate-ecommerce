@@ -1,0 +1,157 @@
+<nav class="bg-[#FFE600] p-4">
+    <div class="flex items-center justify-between mx-4">
+        <!-- Bienvenida -->  
+        <div class="flex items-center">
+            <span class="text-[#333333] font-semibold text-lg">FakeLibre - Admin page</span>
+        </div>
+
+        <div>
+            <a href="/api/sessions/logout" id="logout">Log out</a>
+        </div>
+    </div>
+</nav>
+
+<div class="w-full mx-auto my-10 px-4">
+    <h2 class="text-2xl font-bold mb-4">Users list</h2>
+    <button id="delete-inactive-users" class="bg-gray-500 text-white px-3 py-2 rounded-md hover:bg-red-600">Delete inactive users (2 days)</button>
+    <div class="bg-white border border-gray-200 rounded-lg shadow-md">
+        <table class="w-full border-collapse">
+            <thead>
+                <tr class="bg-gray-800 text-white">
+                    <th class="px-6 py-3 border">Name</th>
+                    <th class="px-6 py-3 border">Email</th>
+                    <th class="px-6 py-3 border">Type</th>
+                    <th class="px-6 py-3 border">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {{#if usersData}}
+                    {{#each usersData}}
+                        <tr class="hover:bg-gray-100">
+                            <td class="px-6 py-4 border" data-user-id="{{_id}}">{{first_name}} {{last_name}}</td>
+                            <td class="px-6 py-4 border">{{email}}</td>
+                            <td class="px-6 py-4 border">{{role}}</td>
+                            <td class="px-6 py-4 border flex justify-center">
+                                <button data-user-id="{{_id}}" class="bg-red-500 text-white px-3 py-2 rounded-md mr-2 hover:bg-blue-600 change-user-role">Change role</button>
+                                <button data-user-id="{{_id}}" class="bg-gray-500 text-white px-3 py-2 rounded-md hover:bg-red-600 delete-user-button">Delete</button>
+                            </td>
+                        </tr>
+                    {{/each}}
+                {{else}}
+                    <tr>
+                        <td class="px-6 py-4 border text-center" colspan="4">No hay usuarios registrados.</td>
+                    </tr>
+                {{/if}}
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer class="bg-[#FFE600] py-6 flex justify-center">
+    <div class="container mx-auto px-4 flex flex-col items-center">
+        <p class="text-gray-600 text-center mb-2">© 2024 FakeLibre.</p>
+        
+        <div class="text-gray-600 text-center">
+            <p class="inline-block mr-2">Made by Tomás with -`♡´- for Coderhouse</p>
+            <p class="inline-block"><a href="https://www.linkedin.com/in/tomasmanduca/">Linkedin</a> - <a href="https://github.com/allthingsmustpass">Github</a> - <a>Portfolio</a></p>
+        </div>
+    </div>
+</footer>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function() {
+        const deleteUserButtons = document.querySelectorAll('.delete-user-button');
+        const changeUserRoleButtons = document.querySelectorAll('.change-user-role');
+        const deleteInactiveUsersButton = document.getElementById('delete-inactive-users');
+
+        deleteUserButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const userId = button.dataset.userId;
+
+                if (!userId) {
+                    console.error('ID de usuario no encontrado');
+                    return;
+                }
+
+                console.log('Deleting user with ID:', userId);
+
+                try {
+                    const response = await fetch(`/api/users/${userId}/delete`, {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Usuario eliminado con éxito:', data);
+                        alert('Usuario eliminado con éxito');
+                        window.location.reload();
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Error al eliminar usuario:', errorData);
+                        alert(`Error al eliminar usuario: ${errorData.message || 'Error desconocido'}`);
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar usuario:', error);
+                    alert('Error al intentar eliminar el usuario');
+                }
+            });
+        });
+
+        changeUserRoleButtons.forEach(button => {
+            button.addEventListener('click', async () => {
+                const userId = button.dataset.userId;
+
+                if (!userId) {
+                    console.error('No se encontró el Id del usuario.')
+                    return;
+                }
+
+                console.log('Changing user role with ID:', userId);
+
+                try {
+                    const response = await fetch(`/api/users/${userId}/change-role`, {
+                        method: 'POST'
+                    })
+
+                    if (response.ok) {
+                        const data = await response.json();
+                        console.log('Rol de usuario cambiado con éxito:', data);
+                        alert('Rol de usuario cambiado con éxito');
+                        window.location.reload();
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Error al cambiar el rol del usuario:', errorData);
+                        alert(`Error al cambiar el rol del usuario: ${errorData.message || 'Error desconocido'}`);
+                    }
+                } catch (error) {
+                    console.error('Error al cambiar el rol del usuario:', error);
+                    alert('Error al intentar cambiar el rol del usuario', error);
+                    window.showModal('Error al intentar cambiar el rol del usuario', error);
+                }
+            });
+        });
+
+        if(deleteInactiveUsersButton) {
+            deleteInactiveUsersButton.addEventListener('click', async () => {
+                try {
+                    const response = await fetch('/api/users/inactive', {
+                        method: 'DELETE'
+                    });
+
+                    if (response.ok) {
+                        console.log('Usuarios inactivos eliminados con éxito');
+                        alert('Usuarios inactivos eliminados con éxito');
+                        window.location.reload();
+                    } else {
+                        const errorData = await response.json();
+                        console.error('Error al eliminar usuarios inactivos:', errorData);
+                        alert(`Error al eliminar usuarios inactivos: ${errorData.message || 'Error desconocido'}`);
+                    }
+                } catch (error) {
+                    console.error('Error al eliminar usuarios inactivos:', error);
+                    alert('Error al intentar eliminar usuarios inactivos');
+                }
+            });
+        }
+    });
+</script>

@@ -1,0 +1,21 @@
+swagger: '2.0'
+info:
+  description: "Mongoose schema for carts in FakeLibre, an eCommerce platform for the Coderhouse backend course."
+  version: "1.0.0"
+  title: "FakeLibre Cart Mongoose Schema"
+definitions:
+  Cart:
+    type: object
+    properties:
+      _id:
+        type: string
+      products:
+        type: array
+        items:
+          type: object
+          properties:
+            productId:
+              type: string
+            quantity:
+              type: integer
+              default: 1

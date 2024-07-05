@@ -1,0 +1,24 @@
+<div class="bg-gray-200 min-h-screen flex justify-center items-center">
+    <div class="bg-white p-8 rounded shadow-md w-80">
+        <h2 class="text-xl font-semibold mb-4">Log-in</h2>
+        <form action="api/sessions/login" method="POST">
+            <div class="mb-4">
+                <label for="email" class="block text-black-700 text-sm">E-mail:</label>
+                <input type="email" id="email" name="email" required
+                    class="w-full border-black-700 rounded-md shadow-sm focus:border-blue-700 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 hover:border-blue-700 focus:outline-none">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-black-700 text-sm">Password:</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full border-black-700 rounded-md shadow-sm focus:border-blue-700 focus:ring focus:ring-blue-200 focus:ring-opacity-50 py-2 px-3 hover:border-blue-700 focus:outline-none">
+            </div>
+            <button type="submit"
+                class="bg-indigo-500 text-white py-2 px-4 rounded text-sm hover:bg-indigo-600">Log me in</button>
+        </form>
+
+        <p class="mt-4 text-xs text-gray-600">You do not have an account? <a href="/register"
+                class="text-indigo-500 hover:text-indigo-600 text-sm">Register</a></p>
+        <p class="mt-4 text-xs text-xs text-gray-600">Did you forget your password? <a href="/restore"
+                class="text-indigo-500 text-xs hover:text-indigo-600 text-sm">Recover password</a></p>
+    </div>
+</div>

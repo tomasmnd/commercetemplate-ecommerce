@@ -1,0 +1,36 @@
+<div class="bg-gray-200 h-screen flex justify-center items-center">
+    <div class="bg-gray-100 p-8 rounded shadow-md w-80">
+        <h2 class="text-2xl font-semibold mb-4">Registro</h2>
+        <form action="api/sessions/register" method="POST">
+            <div class="mb-4">
+                <label for="first_name" class="block text-gray-700">First name:</label>
+                <input type="text" id="first_name" name="first_name" required
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+            <div class="mb-4">
+                <label for="last_name" class="block text-gray-700">Last name:</label>
+                <input type="text" id="last_name" name="last_name" required
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+            <div class="mb-4">
+                <label for="age" class="block text-gray-700">Age:</label>
+                <input type="number" id="age" name="age" required
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+            <div class="mb-4">
+                <label for="email" class="block text-gray-700">Email:</label>
+                <input type="email" id="email" name="email" required
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+            <div class="mb-4">
+                <label for="password" class="block text-gray-700">Password:</label>
+                <input type="password" id="password" name="password" required
+                    class="w-full border-gray-300 rounded-md shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50">
+            </div>
+            <button type="submit"
+                class="bg-indigo-500 text-white py-2 px-4 rounded hover:bg-indigo-600">Register</button>
+        </form>
+        <p class="mt-4 text-sm text-gray-600">¿Ya tienes una cuenta? <a href="/login"
+                class="text-indigo-500 hover:text-indigo-600">Inicia sesión aquí</a></p>
+    </div>
+</div>
