@@ -116,7 +116,7 @@ export async function addProductToCart(req, res) {
       return res.status(404).json({ message: "Producto no encontrado" });
     }
 
-    if (user.role === "PREMIUM" && product.owner === user.email) {
+    if (product.owner === user.email) {
       console.log("Premium user cannot add their own products to cart");
       return res.status(403).json({ message: "No puedes agregar tus propios productos al carrito" });
     }

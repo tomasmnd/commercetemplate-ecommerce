@@ -23,8 +23,8 @@ export const onlyAdminAccess = async (req, res, next) => {
 export const onlyUsersAccess = async (req, res, next) => {
   try {
     const permission = await UserServices.getRoleByID(req.session.userId);
-
-    if (permission.role === "USER") {
+    // Usuarios premium o normales pueder realizar esto.
+    if (permission.role === "USER" || permission.role === "premium") {
       console.log("ITS USER: ", permission.role, req.session.userId);
       next();
     } else {
