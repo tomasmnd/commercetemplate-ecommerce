@@ -1,0 +1,22 @@
+paths:
+  /logger/{errorType}:
+    get:
+      summary: Log an error of a specific type
+      parameters:
+        - in: path
+          name: errorType
+          required: true
+          schema:
+            type: string
+            enum: [fatal, error, warning, info, http, debug]
+          description: The type of error to log
+      responses:
+        '200':
+          description: Successful response
+          content:
+            text/plain:
+              schema:
+                type: string
+                example: 'ERROR TYPE: fatal RECEIVED'
+        '500':
+          description: Internal server error

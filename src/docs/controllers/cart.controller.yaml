@@ -1,0 +1,167 @@
+paths:
+  /carts/{cid}:
+    get:
+      summary: Get a cart by ID
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Cart not found
+        '500':
+          description: Internal server error
+      
+  /carts/user/{id}:
+    get:
+      summary: Get a cart by user ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Cart not found
+        '500':
+          description: Internal server error
+          
+  /carts:
+    post:
+      summary: Create a new cart
+      responses:
+        '201':
+          description: Cart created
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '401':
+          description: Unauthorized
+        '500':
+          description: Internal server error
+          
+  /carts/{cid}/products/{pid}:
+    post:
+      summary: Add a product to a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: Product ID
+        - in: query
+          name: quantity
+          required: true
+          schema:
+            type: integer
+          description: Product quantity
+      responses:
+        '303':
+          description: Successful response, redirecting to cart
+        '400':
+          description: Insufficient stock
+        '403':
+          description: Premium user cannot add their own products
+        '404':
+          description: Product not found
+        '500':
+          description: Internal server error
+          
+    delete:
+      summary: Remove a product from a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: Product ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          description: Cart or product not found
+        '500':
+          description: Internal server error
+          
+  /carts/{cid}/purchase:
+    post:
+      summary: Purchase a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  message:
+                    type: string
+                  amount:
+                    type: number
+                  items:
+                    type: array
+                    items:
+                      type: string
+        '404':
+          description: Cart or user not found
+        '500':
+          description: Internal server error
+          
+  /cart/{cid}:
+    get:
+      summary: Render a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      responses:
+        '200':
+          description: Successful response
+        '500':
+          description: Internal server error

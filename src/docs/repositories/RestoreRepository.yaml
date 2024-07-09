@@ -1,0 +1,75 @@
+paths:
+  /restore:
+    post:
+      summary: Create a new restore request
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: The ID of the user requesting the restore
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+
+  /restore/{hash}:
+    get:
+      summary: Get a restore request by hash
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+          description: The hash of the restore request
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+    delete:
+      summary: Delete a restore request by hash
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+          description: The hash of the restore request
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+
+components:
+  schemas:
+    Restore:
+      type: object
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the restore request
+        userId:
+          type: string
+          description: The ID of the user requesting the restore
+        hash:
+          type: string
+          description: The hash of the restore request
+        createdAt:
+          type: string
+          format: date-time
+          description: The date and time when the restore request was created
+        expiresAt:
+          type: string
+          format: date-time
+          description: The date and time when the restore request expires

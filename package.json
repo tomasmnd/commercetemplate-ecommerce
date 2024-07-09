@@ -1,7 +1,7 @@
 {
-  "name": "fakelibre-ecommerce",
-  "version": "1.0.0",
-  "description": "FakeLibre is a backend ecommerce project for Coderhouse's backend programming course.",
+  "name": "coderhouse-backend-project",
+  "version": "0.1.0",
+  "description": "",
   "main": "app.js",
   "type": "module",
   "scripts": {

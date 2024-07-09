@@ -1,0 +1,47 @@
+components:
+  schemas:
+    Product:
+      type: object
+      required:
+        - title
+        - description
+        - price
+        - code
+        - stock
+        - category
+        - owner
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the product
+        title:
+          type: string
+          description: The title of the product
+        description:
+          type: string
+          description: The description of the product
+        price:
+          type: number
+          description: The price of the product
+        status:
+          type: boolean
+          default: true
+          description: The status of the product (true or false)
+        code:
+          type: string
+          description: The unique code of the product
+        stock:
+          type: integer
+          description: The stock quantity of the product
+        category:
+          type: string
+          description: The category of the product
+        thumbnails:
+          type: array
+          items:
+            type: string
+          description: The URLs of the product thumbnails
+        owner:
+          type: string
+          default: admin@admin.com
+          description: The email of the product owner

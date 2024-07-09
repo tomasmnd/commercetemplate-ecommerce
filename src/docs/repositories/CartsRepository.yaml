@@ -1,0 +1,205 @@
+paths:
+  /carts:
+    post:
+      summary: Create a new cart
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/{cid}:
+    get:
+      summary: Get a cart by ID
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/user/{id}:
+    get:
+      summary: Get a cart by user ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/{cid}/products/{pid}:
+    post:
+      summary: Add a product to a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: Product ID
+        - in: query
+          name: quantity
+          required: true
+          schema:
+            type: integer
+          description: Quantity of the product
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+    delete:
+      summary: Delete a product from a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: Product ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+    put:
+      summary: Update a product quantity in a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: Product ID
+        - in: query
+          name: quantity
+          required: true
+          schema:
+            type: integer
+          description: New quantity of the product
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/{cid}:
+    put:
+      summary: Update a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Cart'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+    delete:
+      summary: Delete a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/{cid}/purchase:
+    post:
+      summary: Purchase a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: Cart ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+
+components:
+  schemas:
+    Cart:
+      $ref: '../model/carts.model.js#/components/schemas/Cart'
+
+    PurchaseResponse:
+      type: object
+      properties:
+        leftiesCart:
+          type: array
+          items:
+            type: string
+          description: The IDs of products that could not be purchased due to insufficient stock
+        amount:
+          type: number
+          description: The total amount of the purchase

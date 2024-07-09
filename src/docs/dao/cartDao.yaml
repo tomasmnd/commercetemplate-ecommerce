@@ -1,0 +1,157 @@
+paths:
+  /carts:
+    post:
+      summary: Create a new cart
+      responses:
+        '200':
+          description: Successful response
+
+  /carts/{cartId}:
+    get:
+      summary: Get a cart by ID
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+    put:
+      summary: Update the cart with new data
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCartRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          $ref: '#/components/responses/CartNotFound'
+    delete:
+      summary: Deletes the cart by its ID
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          $ref: '#/components/responses/CartNotFound'
+
+  /carts/{cartId}/products:
+    post:
+      summary: Add a product to a cart
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: pid
+          required: true
+          schema:
+            type: string
+        - in: query
+          name: quantity
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful response
+        '404':
+          description: Cart not found
+
+  /carts/{cartId}/products/{productId}:
+    put:
+      summary: Updates a product in the cart
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      requestBody:
+        $ref: '#/components/requestBodies/UpdateCartProductRequest'
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          $ref: '#/components/responses/CartNotFound'
+    delete:
+      summary: Deletes a product from the cart
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+        - in: path
+          name: productId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '404':
+          $ref: '#/components/responses/CartNotFound'
+
+  /carts/{cartId}/purchase:
+    post:
+      summary: Processes the purchase of the cart
+      parameters:
+        - in: path
+          name: cartId
+          required: true
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  leftiesCart:
+                    type: array
+                    items:
+                      type: string
+                    description: The IDs of products that could not be purchased due to insufficient stock
+                  amount:
+                    type: number
+                    description: The total amount of the purchase
+        '404':
+          $ref: '#/components/responses/CartNotFound'

@@ -78,11 +78,6 @@ router.get("/product/:_id", auth, async (req, res) => {
   res.render("product", { data, userData });
 });
 
-// Render real-time products page
-router.get("/realtimeproducts", auth, (req, res) => {
-  res.render("realTimeProducts");
-});
-
 // Render admin page
 router.get("/admin", auth, onlyAdminAccess, async (req, res) => {
   const usersData = await UsersDao.getAllUsers();

@@ -6,7 +6,7 @@ const storage = multer.diskStorage({
     let uploadPath;
     if (file.fieldname === "profileImage") {
       uploadPath = "uploads/profiles";
-    } else if (file.fieldname === "productImage") {
+    } else if (file.fieldname === "img") {
       uploadPath = "uploads/products";
     } else {
       uploadPath = "uploads/documents";

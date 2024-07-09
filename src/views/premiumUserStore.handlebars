@@ -220,7 +220,7 @@
 
       const result = await response.json();
       console.log('Producto creado:', result);
-
+      alert('Producto creado')
       window.location.reload();
       
       // Logicaaaa
@@ -229,7 +229,6 @@
     } catch (error) {
       console.error('Error:', error);
       alert('Error al crear el producto', error);
-      window.showModal('Error al crear producto', error);
     }
   });
 

@@ -1,0 +1,71 @@
+components:
+  schemas:
+    User:
+      type: object
+      required:
+        - first_name
+        - last_name
+        - email
+        - age
+        - password
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the user
+        first_name:
+          type: string
+          description: The first name of the user
+        last_name:
+          type: string
+          description: The last name of the user
+        email:
+          type: string
+          description: The email of the user
+          uniqueItems: true
+        age:
+          type: integer
+          description: The age of the user
+        password:
+          type: string
+          description: The password of the user
+        cart:
+          type: string
+          description: The ID of the user's cart
+        role:
+          type: string
+          enum: [ADMIN, USER, premium]
+          default: USER
+          description: The role of the user
+        documents:
+          type: array
+          items:
+            $ref: '#/components/schemas/Document'
+          description: The documents uploaded by the user
+        profileImage:
+          type: string
+          description: The URL of the user's profile image
+        last_connection:
+          type: string
+          format: date-time
+          default: The current date and time
+          description: The date and time of the user's last connection
+        confirmationToken:
+          type: string
+          description: The confirmation token for the user's account
+        confirmed:
+          type: boolean
+          default: false
+          description: Whether the user's account is confirmed or not
+
+    Document:
+      type: object
+      required:
+        - name
+        - reference
+      properties:
+        name:
+          type: string
+          description: The name of the document
+        reference:
+          type: string
+          description: The reference or path to the document

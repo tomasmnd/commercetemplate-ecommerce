@@ -1,0 +1,49 @@
+components:
+  schemas:
+    Ticket:
+      type: object
+      required:
+        - amount
+        - purchaser
+      properties:
+        _id:
+          type: string
+          description: The unique identifier for the ticket
+        code:
+          type: string
+          description: The unique code for the ticket
+          default: A UUID v4 value
+        purchase_datetime:
+          type: string
+          format: date-time
+          description: The date and time of the purchase
+          default: The current date and time
+        amount:
+          type: number
+          description: The total amount of the purchase
+        purchaser:
+          type: string
+          description: The email or identifier of the purchaser
+        items:
+          type: array
+          items:
+            type: string
+          description: The IDs of the carts associated with the purchase
+        products:
+          type: array
+          items:
+            $ref: '#/components/schemas/TicketProduct'
+          description: The products included in the purchase
+
+    TicketProduct:
+      type: object
+      required:
+        - product
+        - quantity
+      properties:
+        product:
+          type: string
+          description: The ID of the product
+        quantity:
+          type: integer
+          description: The quantity of the product

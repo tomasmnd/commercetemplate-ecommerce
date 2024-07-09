@@ -6,11 +6,18 @@ const options = {
     openapi: '3.0.0',
     info: {
       title: 'FakeLibre',
-      version: '1.0.0',
+      version: '0.1.0',
       description: 'Ecommerce for Coderhouse Backend course.',
     },
   },
-  apis: ['./src/controller/*.js'],
+  apis: ['../docs/models/*.yaml',
+    '../docs/controllers/*.yaml',
+    '../docs/routes/*.yaml',
+    '../docs/dao/*.yaml',
+    '../docs/utils/*.yaml',
+    '../docs/repositories/*.yaml',
+    '../docs/dto/*.yaml'
+  ],
 };
 
 const swaggerSpec = swaggerJSDoc(options);

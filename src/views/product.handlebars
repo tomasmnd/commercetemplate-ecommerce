@@ -20,6 +20,7 @@
             {{#if userData}}
             <span class="text-[#333333] ml-4">¡Hello, {{userData.first_name}} {{userData.last_name}}! </span>
             <p hidden id="userId">{{userData._id}}</p>
+            <p hidden id="cid">{{userData.cart._id}}</p>
             
             {{#if userData.role}}
                 {{#if (eq userData.role "ADMIN")}}
@@ -112,7 +113,6 @@
     const cartId = cartIdElement ? cartIdElement.textContent.trim() : null;
     const userId = document.getElementById('userId');
 
-
     if (addToCartBtn) {
       addToCartBtn.addEventListener('click', async function() {
         if (!cartId) {
@@ -131,18 +131,20 @@
             }
 
             const result = await response.json();
+            alert('Producto añadido');
             window.location.reload();
           } catch (error) {
             console.error('No se pudo crear el carrito', error);
-            Window.showModalDialog('No se pudo crear el carrito', error);
             alert('No se pudo crear el carrito', error);
             return;
           }
         }
 
-        console.log("Id del carrito OK.");
+        console.log("Id del carrito OK:", cartId);
 
         const quantity = parseInt(document.getElementById('quantity').value, 10);
+        console.log("Cantidad:", quantity);
+
         try {
           const response = await fetch(`/api/carts/${cartId}/products/${productId}/${quantity}`, {
             method: 'POST',
@@ -151,15 +153,18 @@
             }
           });
 
+          console.log("Respuesta de la solicitud:", response);
+
           if (!response.ok) {
-            throw new Error('No se pudo agregar el producto al carrito');
+            const errorMessage = await response.text();
+            throw new Error(`No se pudo agregar el producto al carrito: ${errorMessage}`);
           }
 
           const result = await response.json();
           console.log('Producto agregado al carrito:', result);
-
+          alert('Producto añadido al carrito');
         } catch (error) {
-          console.error('Error al agregar producto al carrito:', error);
+          console.error(error);
         }
       });
     }
@@ -178,7 +183,6 @@
           if (!response.ok) {
             throw new Error('No se pudo crear el carrito');
           }
-
 
           const cartResult = await response.json();
           const cartId = cartResult._id; 
@@ -207,14 +211,12 @@
             throw new Error('No se pudo comprar el carrito');
           }
 
-          alert('Carrito comprado exitosamente');
-          window.showModal('Carrito comprado exitosamente');
+          alert('Producto comprado exitosamente');
           window.location.reload();
 
         } catch (error) {
           console.error('Error:', error.message);
-          alert(error.message);
-          window.showModal(error.message);
+          alert('Error al comprar producto');
         }
       });
     }

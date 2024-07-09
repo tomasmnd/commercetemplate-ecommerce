@@ -113,23 +113,3 @@
         </div>
     </div>
 </footer>
-
-
-
-<script>
-    function aplicarFiltro() {
-        const category = document.getElementById("category").value;
-        const stock = document.getElementById("stock").checked;
-
-        let query = {};
-
-        if (category !== "") {
-            query.category = category;
-        }
-
-        if (stock) {
-            query.status = true;
-        }
-        window.location.href = `/products?query=${JSON.stringify(query)}`;
-    }    
-</script>

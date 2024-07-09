@@ -1,0 +1,48 @@
+paths:
+  /restore:
+    post:
+      summary: Create a new restore request
+      parameters:
+        - in: query
+          name: userId
+          required: true
+          schema:
+            type: string
+          description: User ID
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+
+  /restore/{hash}:
+    get:
+      summary: Get a restore request by hash
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+          description: Restore hash
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Restore'
+    delete:
+      summary: Delete a restore request by hash
+      parameters:
+        - in: path
+          name: hash
+          required: true
+          schema:
+            type: string
+          description: Restore hash
+      responses:
+        '200':
+          description: Successful response

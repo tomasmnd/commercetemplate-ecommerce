@@ -1,0 +1,185 @@
+# src/routes/carts.routes.js
+
+paths:
+  /carts/{cid}:
+    get:
+      summary: Get a cart by ID
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/user/{id}:
+    get:
+      summary: Get a cart by user ID
+      parameters:
+        - in: path
+          name: id
+          required: true
+          schema:
+            type: string
+          description: The ID of the user
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts:
+    post:
+      summary: Create a new cart
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+  /carts/{cid}/products/{pid}/{quantity}:
+    post:
+      summary: Add a product to a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: The ID of the product
+        - in: path
+          name: quantity
+          required: true
+          schema:
+            type: integer
+          description: The quantity of the product
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /carts/{cid}/products/{pid}:
+    delete:
+      summary: Remove a product from a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart
+        - in: path
+          name: pid
+          required: true
+          schema:
+            type: string
+          description: The ID of the product
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /carts/{cid}/purchase:
+    post:
+      summary: Purchase a cart
+      parameters:
+        - in: path
+          name: cid
+          required: true
+          schema:
+            type: string
+          description: The ID of the cart
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PurchaseResponse'
+        '401':
+          description: Unauthorized
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+  /carts/render:
+    post:
+      summary: Render a cart
+      responses:
+        '200':
+          description: Successful response
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Cart'
+
+components:
+  schemas:
+    Cart:
+      $ref: '../model/carts.model.js#/components/schemas/Cart'
+
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+
+    PurchaseResponse:
+      type: object
+      properties:
+        leftiesCart:
+          type: array
+          items:
+            type: string
+          description: The IDs of products that could not be purchased due to insufficient stock
+        amount:
+          type: number
+          description: The total amount of the purchase
+
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

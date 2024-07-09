@@ -20,6 +20,7 @@
             {{#if userData}}
             <span class="text-[#333333] ml-4">¡Hello, {{userData.first_name}} {{userData.last_name}}! </span>
             <p hidden id="userId">{{userData._id}}</p>
+            <p hidden id="cid">CART {{userData.cart._id}}</p>
             
             {{#if userData.role}}
                 {{#if (eq userData.role "ADMIN")}}
@@ -78,7 +79,7 @@
           <p class="text-gray-800 font-semibold">${{this.productId.price}}</p>
           <p class="text-sm text-gray-600">{{this.productId.category}}</p>
           <p hidden name="pid" id="pid">{{this.productId._id}}</p>
-          <button id="remove-from-cart" data-product-id="{{this.productId._id}}" class="bg-red-500 text-white py-2 px-4 rounded">Delete</button>
+          <button id="remove-from-cart" name="remove-from-cart" data-product-id="{{this.productId._id}}" class="bg-red-500 text-white py-2 px-4 rounded">Delete</button>
         </div>
       </div>
       {{/each}}
@@ -114,17 +115,16 @@
 
 <script>
   document.addEventListener('DOMContentLoaded', function() {
-    const removeFromCartButton = document.getElementById('remove-from-cart');
+    const removeFromCartButton = document.querySelectorAll('#remove-from-cart');
     const purchaseCartButton = document.getElementById('purchase-cart');
     const cartIdElement = document.getElementById('cid');
-    const cartId = cartIdElement ? cartIdElement.textContent.trim() : null;
-    const productIdElement = document.getElementById('pid');
-    const productId = productIdElement ? productIdElement.textContent.trim() : null;
+    const cartId = cartIdElement ? cartIdElement.textContent.trim().replace('CART ', '') : null;
 
-    if (removeFromCartButton) {
-      removeFromCartButton.addEventListener('click', async () => {
+    removeFromCartButton.forEach(button => {
+      button.addEventListener('click', async () => {
+        const productId = button.getAttribute('data-product-id');
 
-        if(!cartId) {
+        if (!cartId) {
           console.error('No se encontró el id del carrito');
           return;
         }
@@ -138,57 +138,51 @@
           const response = await fetch(`/api/carts/${cartId}/products/${productId}`, {
             method: 'DELETE'
           });
+          console.log("Respuesta del fetch: ", response);
 
           if (response.ok) {
             const data = await response.json();
-            window.showModal('Producto eliminado del carrito');
+            alert("Producto eliminado")
             window.location.reload();
           } else {
             const errorData = await response.json();
-            window.showModal(`No se pudo eliminar el producto del carrito: ${errorData.message || 'Error desconocido'}`);
             alert(`No se pudo eliminar el producto del carrito: ${errorData.message || 'Error desconocido'}`);
           }
         } catch (error) {
           console.error('Error al eliminar el producto del carrito:', error);
-          window.showModal('Error al eliminar el producto del carrito', error);
-          alert('Error al eliminar el producto del carrito', error);
+          alert('Error al eliminar el producto del carrito');
         }
       });
-    }
+    });
 
     if (purchaseCartButton) {
-      try {
-        purchaseCartButton.addEventListener('click', async () => {
-          if (!cartId) {
-            console.error('No se encontró el id del carrito');
-            return;
-          }
+      purchaseCartButton.addEventListener('click', async () => {
+        if (!cartId) {
+          console.error('No se encontró el id del carrito');
+          return;
+        }
 
-          console.log("Se encontró el carrito")
+        console.log("Se encontró el carrito");
 
+        try {
           const response = await fetch(`/api/carts/${cartId}/purchase`, {
             method: 'POST'
           });
+          console.log("Respuesta del fetch: ", response);
+          console.log("Todo bien por ahora");
 
-          console.log("Todo bien por ahora")
-
-          if(!response) {
+          if (!response) {
             alert('No se pudo comprar el carrito');
-            window.showModal('No se pudo comprar el carrito');
-          }
-
-          if (response.ok) {
+          } else if (response.ok) {
             alert('Carrito comprado exitosamente');
-            window.showModal('Carrito comprado exitosamente');
             window.location.reload();
           }
-        });
-      }
-    } catch(error) {
-      alert.error('Error al comprar el carrito', error);
-      console.error('Error al comprar el carrito', error);
-      window.showModal('Error al comprar el carrito', error);
-      windows.location.reload();
+        } catch (error) {
+          alert('Error al comprar el carrito', error);
+          console.error('Error al comprar el carrito', error);
+          window.location.reload();
+        }
+      });
     }
-});
+  });
 </script>
