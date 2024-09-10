@@ -1,7 +1,7 @@
                      
-<h1 style="font-weight: bold;">FakeLibre</h1>
+<h1 style="font-weight: bold;">Commercetemplate</h1>
 
-<p> FakeLibre is a backend ecommerce project for Coderhouse's backend programming course.</p>
+<p> Commercetemplate is a backend ecommerce project for Coderhouse's backend programming course.</p>
 
 <ul>
   <li><a href="#tech">Technologies</a></li>
